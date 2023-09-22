@@ -17,9 +17,12 @@ export const createProduct = (req: Request, res: Response) => {
 };
 
 export const readProducts = (req: Request, res: Response) => {
-  const totalProducts: number = market.length;
+  const totalValueProducts: number = market.reduce(
+    (ac, product) => ac + product.price,
+    0
+  );
 
-  return res.status(200).json({ total: totalProducts, products: market });
+  return res.status(200).json({ total: totalValueProducts, products: market });
 };
 
 export const readProductsById = (req: Request, res: Response) => {
@@ -38,9 +41,7 @@ export const editProductById = (req: Request, res: Response) => {
 
   market.splice(index, 1, newProduct);
 
-  return res
-    .status(200)
-    .json({ message: "product update successfully", product: newProduct });
+  return res.status(200).json(newProduct);
 };
 
 export const deleteProductById = (req: Request, res: Response) => {
